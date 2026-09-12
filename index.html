@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>HMi - new home banner (proposal)</title>
+<style>
+  :root{
+    --pink:#e5007d;
+    --pink-dark:#c00069;
+    --ink:#1c1c1c;
+    --muted:#4a4a4a;
+    --magenta:#8e0044;
+    --orange:#d69120;
+    --green:#008a12;
+    --maxw:1300px;
+    --radius:6px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--ink);
+    background:#fff;
+    -webkit-font-smoothing:antialiased;
+  }
+  .note{
+    background:#f4f4f4;border-bottom:1px solid #e2e2e2;
+    padding:10px 16px;font-size:13px;color:#555;text-align:center;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
+
+  /* ---------- slider ---------- */
+  .hero{position:relative;overflow:hidden;background:#fff}
+  .hero-track{position:relative}
+  .slide{
+    position:absolute;inset:0;opacity:0;visibility:hidden;
+    transition:opacity .6s ease;
+  }
+  .slide.is-active{position:relative;opacity:1;visibility:visible}
+  .slide-inner{
+    max-width:var(--maxw);margin:0 auto;
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    align-items:center;gap:24px;
+    padding:26px 16px;min-height:330px;
+  }
+  .slide-text{max-width:560px}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--pink);font-weight:700;margin:0 0 8px;
+  }
+  .slide h2{
+    font-size:clamp(22px,2.5vw,34px);line-height:1.18;margin:0 0 12px;font-weight:800;letter-spacing:-.01em;
+  }
+  .slide p{font-size:15px;line-height:1.6;color:var(--muted);margin:0 0 18px}
+  .btns{display:flex;flex-wrap:wrap;gap:12px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 22px;border-radius:var(--radius);
+    font-size:14px;font-weight:700;text-decoration:none;
+    transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+  }
+  .btn:focus-visible{outline:3px solid #1c1c1c;outline-offset:2px}
+  .btn-primary{background:var(--pink);color:#fff}
+  .btn-primary:hover{background:var(--pink-dark);transform:translateY(-1px)}
+  .btn-ghost{background:#fff;color:#14506b;border:2px solid #14506b}
+  .btn-ghost:hover{background:#14506b;color:#fff;transform:translateY(-1px)}
+
+  .slide-media{position:relative;text-align:center}
+  .slide-media img{display:block;height:320px;width:auto;max-width:100%;margin:0 auto;border-radius:4px;object-fit:cover}
+  .ticks{
+    margin:16px 0 0;padding:0;list-style:none;
+    display:flex;flex-wrap:wrap;gap:6px 18px;
+    font-size:13px;color:#3a3a3a;
+  }
+  .ticks li::before{content:"\2713";color:var(--pink);font-weight:700;margin-right:6px}
+
+  /* controls */
+  .controls{
+    display:flex;gap:14px;justify-content:center;align-items:center;
+    padding:10px 0 4px;
+  }
+  .nav{
+    width:34px;height:34px;border-radius:50%;border:1px solid #d8d8d8;cursor:pointer;
+    background:#fff;font-size:18px;line-height:1;color:#1c1c1c;display:grid;place-items:center;
+  }
+  .nav:hover{background:#f2f2f2}
+  .dots{
+    display:flex;gap:9px;justify-content:center;align-items:center;
+  }
+  .dot{
+    width:10px;height:10px;border-radius:50%;border:0;padding:0;cursor:pointer;
+    background:#cfcfcf;transition:background .2s,width .2s;
+  }
+  .dot[aria-current="true"]{background:var(--pink);width:26px;border-radius:6px}
+
+  /* ---------- the three offer bars ---------- */
+  .bars{
+    max-width:var(--maxw);margin:0 auto;padding:0 16px;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  }
+  .bar{
+    display:block;text-decoration:none;color:#fff;text-align:center;
+    padding:14px 18px;border-radius:4px;
+    transition:transform .18s ease,filter .18s ease;
+  }
+  .bar:hover{transform:translateY(-2px);filter:brightness(1.08)}
+  .bar strong{display:block;font-size:17px;line-height:1.25}
+  .bar span{display:block;font-size:12.5px;opacity:.92;margin-top:4px}
+  .bar-1{background:var(--magenta)}
+  .bar-2{background:var(--orange)}
+  .bar-3{background:var(--green)}
+
+  @media (max-width:900px){
+    .slide-inner{grid-template-columns:1fr;gap:16px;padding:20px 16px;min-height:0}
+    .slide-media{order:-1}
+    .slide-media img{height:210px}
+    .ticks{gap:4px 14px;font-size:12.5px}
+    .bars{grid-template-columns:1fr}
+    .nav{width:36px;height:36px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .slide{transition:none}
+    .btn,.bar{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="note">
+  Proposal for hmi-ad.com - new home banner rebuilt as real text and real buttons, rotating every 6 seconds.
+  Hover the banner to pause it. Not a live page, nothing on your site has been changed.
+</div>
+
+<section class="hero" aria-roledescription="carousel" aria-label="HMi offers">
+  <div class="hero-track" id="track">
+
+    <article class="slide is-active" aria-roledescription="slide" aria-label="1 of 3">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <span class="eyebrow">HMi GmbH - since 1989</span>
+          <h2>Promotional Products Germany &ndash;<br>Corporate Gifts &amp; Custom Giveaways</h2>
+          <p>Discover promotional products, corporate gifts and custom giveaways branded with your
+             logo in Germany. HMi offers millions of product options, in-house branding and fast
+             production solutions for companies, trade shows, events and marketing campaigns.</p>
+          <div class="btns">
+            <a class="btn btn-primary" href="#">Explore Promotional Products &rarr;</a>
+            <a class="btn btn-ghost" href="#">Request a Quote</a>
+          </div>
+          <ul class="ticks">
+            <li>Trade Shows</li>
+            <li>Corporate Gifts</li>
+            <li>Employee Gifts</li>
+            <li>Marketing Campaigns</li>
+            <li>And More...</li>
+          </ul>
+        </div>
+        <div class="slide-media">
+          <img src="img/products.jpg" alt="Branded HMi bottle, cotton bag, notebook and wireless charger">
+        </div>
+      </div>
+    </article>
+
+    <article class="slide" aria-roledescription="slide" aria-label="2 of 3">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <span class="eyebrow">Same night printing</span>
+          <h2>Order before 15:00 &ndash;<br>printed and delivered the same day</h2>
+          <p>Last minute printing for Düsseldorf and the whole of Germany. Flyers, brochures,
+             business cards and leaflets produced in our own print shop, with delivery in
+             Düsseldorf within 60 minutes.</p>
+          <div class="btns">
+            <a class="btn btn-primary" href="#">See Last Minute Printing &rarr;</a>
+            <a class="btn btn-ghost" href="#">Request a Quote</a>
+          </div>
+        </div>
+        <div class="slide-media">
+          <img src="img/printing.jpg" alt="HMi printing press producing same night print products">
+        </div>
+      </div>
+    </article>
+
+    <article class="slide" aria-roledescription="slide" aria-label="3 of 3">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <span class="eyebrow">Express delivery</span>
+          <h2>Express Promotional Products<br>within 24 hours in Germany</h2>
+          <p>Need your giveaways tomorrow? Choose from our express range, add your logo and we
+             produce and ship anywhere in Germany within 24 hours.</p>
+          <div class="btns">
+            <a class="btn btn-primary" href="#">Explore Express Range &rarr;</a>
+            <a class="btn btn-ghost" href="#">Request a Quote</a>
+          </div>
+        </div>
+        <div class="slide-media">
+          <img src="img/promo.jpg" alt="Promotional gift items with logo from HMi Germany">
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<div class="controls">
+  <button class="nav" id="prev" type="button" aria-label="Previous slide">&#8249;</button>
+  <div class="dots" id="dots" role="tablist" aria-label="Choose slide"></div>
+  <button class="nav" id="next" type="button" aria-label="Next slide">&#8250;</button>
+</div>
+
+<div class="bars">
+  <a class="bar bar-1" href="#">
+    <strong>Super Last Minute Printing Products</strong>
+    <span>Order your printing products before 15:00 and get it same day!</span>
+  </a>
+  <a class="bar bar-2" href="#">
+    <strong>1 Hour Printing Products</strong>
+    <span>60 minutes printing products &amp; delivery in Düsseldorf!</span>
+  </a>
+  <a class="bar bar-3" href="#">
+    <strong>Express Promotional Products</strong>
+    <span>Promotional products with 24 hours delivery in Germany</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var DELAY = 6000;
+  var track  = document.getElementById('track');
+  var slides = Array.prototype.slice.call(track.querySelectorAll('.slide'));
+  var dotsEl = document.getElementById('dots');
+  var i = 0, timer = null;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  slides.forEach(function(_, n){
+    var d = document.createElement('button');
+    d.className = 'dot';
+    d.type = 'button';
+    d.setAttribute('role','tab');
+    d.setAttribute('aria-label','Go to slide ' + (n+1));
+    d.setAttribute('aria-current', n === 0 ? 'true' : 'false');
+    d.addEventListener('click', function(){ go(n); restart(); });
+    dotsEl.appendChild(d);
+  });
+  var dots = Array.prototype.slice.call(dotsEl.children);
+
+  function go(n){
+    i = (n + slides.length) % slides.length;
+    slides.forEach(function(s, k){ s.classList.toggle('is-active', k === i); });
+    dots.forEach(function(d, k){ d.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+  }
+  function next(){ go(i + 1); }
+  function prev(){ go(i - 1); }
+  function start(){ if (!reduce && !timer) timer = setInterval(next, DELAY); }
+  function stop(){ clearInterval(timer); timer = null; }
+  function restart(){ stop(); start(); }
+
+  document.getElementById('next').addEventListener('click', function(){ next(); restart(); });
+  document.getElementById('prev').addEventListener('click', function(){ prev(); restart(); });
+
+  // pause while the visitor is reading it
+  track.addEventListener('mouseenter', stop);
+  track.addEventListener('mouseleave', start);
+  track.addEventListener('focusin', stop);
+  track.addEventListener('focusout', start);
+  document.addEventListener('visibilitychange', function(){
+    document.hidden ? stop() : start();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight'){ next(); restart(); }
+    if (e.key === 'ArrowLeft'){ prev(); restart(); }
+  });
+
+  // swipe on touch devices
+  var x0 = null;
+  track.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; stop(); }, {passive:true});
+  track.addEventListener('touchend', function(e){
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+    x0 = null; start();
+  });
+
+  start();
+})();
+</script>
+</body>
+</html>
