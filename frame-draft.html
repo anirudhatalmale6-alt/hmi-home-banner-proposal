@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>HMi - Food &amp; Beverage page, stage 1 (draft)</title>
+<style>
+  :root{
+    --pink:#e5007d; --pink-dark:#c00069;
+    --teal:#14506b; --teal-deep:#0d2f3f;
+    --ink:#1c1c1c; --muted:#5a5a5a;
+    --line:#e6e6e6; --soft:#f6f7f8;
+    --maxw:1240px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--ink);
+       background:#fff;-webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px}
+  h1,h2,h3,h4{margin:0 0 10px;line-height:1.18;letter-spacing:-.01em}
+  p{margin:0 0 12px}
+  .eyebrow{display:inline-block;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+           font-weight:800;color:var(--pink);margin-bottom:8px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:6px;
+       font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;border:0;
+       transition:background .18s,color .18s,transform .18s}
+  .btn-primary{background:var(--pink);color:#fff}
+  .btn-primary:hover{background:var(--pink-dark);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.8)}
+  .btn-ghost:hover{background:#fff;color:var(--teal)}
+  .btn-dark{background:var(--teal);color:#fff}
+  .btn-dark:hover{background:var(--teal-deep);transform:translateY(-1px)}
+
+  /* draft chrome */
+  .draftbar{background:#1c1c1c;color:#fff;padding:12px 18px;font-size:13.5px;text-align:center}
+  .draftbar b{color:#ffd84d}
+  .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+       padding:4px 9px;border-radius:99px;vertical-align:middle;margin-left:8px}
+  .tag-100{background:#e8f4ea;color:#1a7a33;border:1px solid #bfe0c7}
+  .tag-150{background:#fdeef6;color:#a80060;border:1px solid #f5c4dd}
+  .ph{background:repeating-linear-gradient(45deg,#eceff1,#eceff1 10px,#e3e7ea 10px,#e3e7ea 20px);
+      display:grid;place-items:center;color:#7b8791;font-size:12px;font-weight:700;
+      letter-spacing:.04em;text-align:center;border-radius:6px;padding:8px}
+
+  /* 1 hero */
+  .hero{background:linear-gradient(120deg,var(--teal-deep) 0%,var(--teal) 62%,#1a6382 100%);color:#fff}
+  .hero-in{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center;padding:44px 0}
+  .hero h1{font-size:clamp(26px,3.2vw,40px);color:#fff}
+  .hero p{color:#cfe4ee;max-width:540px}
+  .hero .eyebrow{color:#59d7ff}
+  .hero .ph{height:280px}
+
+  /* 2 strip */
+  .strip{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .strip ul{list-style:none;margin:0;padding:14px 0;display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:space-between}
+  .strip li{font-size:13px;font-weight:600;color:#3d3d3d;display:flex;align-items:center;gap:7px}
+  .strip li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--pink)}
+
+  /* 3 intro + stats */
+  .sec{padding:46px 0}
+  .intro{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+  .stat{border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center}
+  .stat b{display:block;font-size:22px;color:var(--teal)}
+  .stat span{font-size:12px;color:var(--muted)}
+  .introbox{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:20px}
+
+  /* 4 business type cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;
+        transition:box-shadow .18s,transform .18s}
+  .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.09);transform:translateY(-2px)}
+  .card .ph{height:120px;border-radius:0}
+  .card-b{padding:14px}
+  .card h4{font-size:16px;margin-bottom:6px}
+  .card ul{margin:0 0 10px;padding-left:16px;font-size:12.5px;color:var(--muted)}
+  .card a{font-size:13px;font-weight:700;color:var(--pink);text-decoration:none}
+  .card a:hover{text-decoration:underline}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 16px;
+        font-size:13px;font-weight:700;cursor:pointer;transition:.18s}
+  .chip[aria-pressed="true"]{background:var(--pink);color:#fff;border-color:var(--pink)}
+  .card.is-hidden{display:none}
+
+  .helpbar{background:var(--teal-deep);color:#fff;border-radius:10px;padding:16px 20px;margin-top:18px;
+           display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+  .helpbar p{margin:0;color:#cfe4ee;font-size:14px}
+
+  /* 6 packages */
+  .pk{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .pkg{border:1px solid var(--line);border-radius:10px;padding:20px;text-align:center;background:#fff;position:relative}
+  .pkg.is-pop{border:2px solid var(--pink);box-shadow:0 10px 30px rgba(229,0,125,.12)}
+  .pkg .pop{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--pink);color:#fff;
+            font-size:11px;font-weight:800;letter-spacing:.08em;padding:4px 12px;border-radius:99px}
+  .pkg h4{font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+  .pkg ul{list-style:none;margin:12px 0;padding:0;font-size:13px;color:var(--muted);text-align:left}
+  .pkg li{padding:5px 0 5px 20px;position:relative}
+  .pkg li::before{content:"\2713";position:absolute;left:0;color:var(--pink);font-weight:800}
+  .price{font-size:26px;font-weight:800;color:var(--ink)}
+  .price small{display:block;font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.08em}
+
+  /* 7 subcategory block */
+  .subhead{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;
+           border-top:2px dashed var(--line);padding-top:26px;margin-top:10px}
+  .badge{background:var(--teal);color:#fff;border-radius:6px;padding:7px 16px;font-weight:800;font-size:15px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+  .grid8{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .mini{border:1px solid var(--line);border-radius:8px;padding:12px;font-size:13px}
+  .mini b{display:block;font-size:13.5px;margin-bottom:3px}
+  .mini span{color:var(--muted);font-size:12px}
+  .prods{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .prod{border:1px solid var(--line);border-radius:8px;overflow:hidden;text-align:center}
+  .prod .ph{height:90px;border-radius:0}
+  .prod span{display:block;padding:8px 6px;font-size:12.5px;font-weight:600}
+  .journey{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:8px}
+  .step{text-align:center;font-size:12px}
+  .step b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;margin:0 auto 6px;
+          background:var(--pink);color:#fff;font-size:13px}
+  .step span{color:var(--muted)}
+
+  /* portfolio slider */
+  .slider{position:relative;overflow:hidden;border-radius:10px}
+  .track{display:flex;gap:14px;transition:transform .5s ease}
+  .slide{flex:0 0 calc(25% - 11px)}
+  .slide .ph{height:140px}
+  .slide span{display:block;font-size:12.5px;font-weight:600;padding-top:7px}
+  .sldbtns{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+  .sldbtns button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:16px}
+  .sldbtns button:hover{background:var(--soft)}
+
+  /* faq */
+  details{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:8px;background:#fff}
+  details[open]{border-color:var(--pink)}
+  summary{cursor:pointer;font-weight:700;font-size:14px;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";float:right;color:var(--pink);font-weight:800}
+  details[open] summary::after{content:"\2013"}
+  details p{margin:10px 0 0;font-size:13.5px;color:var(--muted)}
+
+  /* contact */
+  .contact{display:grid;grid-template-columns:1fr 1fr;gap:26px;background:var(--soft);
+           border:1px solid var(--line);border-radius:12px;padding:26px}
+  .field{margin-bottom:10px}
+  .field label{display:block;font-size:12.5px;font-weight:700;margin-bottom:4px}
+  .field input,.field select,.field textarea{
+    width:100%;padding:10px 12px;border:1px solid #d8d8d8;border-radius:6px;font:inherit;font-size:14px;background:#fff}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--pink);outline-offset:1px}
+  .err{color:#c00;font-size:12px;margin-top:3px;display:none}
+  .field.bad input,.field.bad textarea{border-color:#c00}
+  .field.bad .err{display:block}
+  .ok{display:none;background:#e8f4ea;border:1px solid #bfe0c7;color:#1a7a33;
+      border-radius:8px;padding:12px 14px;font-size:14px;font-weight:700;margin-top:10px}
+  .ok.show{display:block}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+
+  /* last block */
+  .why{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;text-align:center}
+  .why div{border:1px solid var(--line);border-radius:8px;padding:14px 10px;font-size:12.5px;font-weight:600}
+  .blogs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .blog{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .blog .ph{height:110px;border-radius:0}
+  .blog div{padding:12px;font-size:13px}
+
+  @media (max-width:980px){
+    .hero-in,.intro,.two,.contact{grid-template-columns:1fr}
+    .cards,.pk,.blogs{grid-template-columns:1fr 1fr}
+    .grid8,.prods{grid-template-columns:1fr 1fr}
+    .journey{grid-template-columns:repeat(4,1fr);gap:14px}
+    .why{grid-template-columns:1fr 1fr 1fr}
+    .slide{flex:0 0 calc(50% - 7px)}
+    .stats{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:560px){
+    .cards,.pk,.blogs,.why,.prods,.grid8{grid-template-columns:1fr}
+    .journey{grid-template-columns:1fr 1fr}
+    .slide{flex:0 0 100%}
+  }
+
+  .stage2{border:2px dashed #d9c2d1;border-radius:12px;background:#fffafd;padding:26px 24px;text-align:left}
+  .stage2-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+              background:#fdeef6;color:#a80060;border:1px solid #f5c4dd;border-radius:99px;padding:5px 12px;margin-bottom:10px}
+  .stage2 h2{margin:6px 0 8px}
+  .stage2-list{margin:8px 0 12px 20px;color:var(--muted);font-size:14px}
+  .stage2-list li{margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<div class="draftbar">
+  <b>STAGE 1 DRAFT</b> &nbsp;/food-beverage-branding-solutions/ &nbsp;&mdash;&nbsp; this is exactly what the
+  50 builds. All text and photos are placeholders; you supply the real ones.
+  <span class="tag tag-100">in the 50</span> <span class="tag tag-150">stage 2, later</span>
+</div>
+
+<!-- 1. HERO -->
+<section class="hero">
+  <div class="wrap hero-in">
+    <div>
+      <span class="eyebrow">Food &amp; Beverage</span>
+      <h1>Complete Branding Solutions for Food &amp; Beverage Businesses</h1>
+      <p>From restaurants and cafés to bakeries, food trucks and catering companies, we create
+         powerful brands that attract, engage and grow.</p>
+      <p style="margin-top:16px">
+        <a class="btn btn-primary" href="#types">Explore Solutions &rarr;</a>
+        <a class="btn btn-ghost" href="#packages">View Packages</a>
+      </p>
+    </div>
+    <div class="ph" aria-hidden="true">YOUR HERO PHOTO</div>
+  </div>
+</section>
+
+<!-- 2. TRUST STRIP -->
+<div class="strip"><div class="wrap"><ul>
+  <li>Strategic Branding</li><li>Premium Design</li><li>Quality Products</li>
+  <li>Fast Turnaround</li><li>Dedicated Support</li><li>100% Satisfaction</li>
+</ul></div></div>
+
+<!-- 3. INTRO + STATS -->
+<section class="sec"><div class="wrap intro">
+  <div>
+    <span class="eyebrow">Trusted by food &amp; beverage businesses</span>
+    <h2>We help food businesses stand out with memorable branding and custom promotional products.</h2>
+    <div class="stats">
+      <div class="stat"><b>500+</b><span>Projects completed</span></div>
+      <div class="stat"><b>30+</b><span>Business categories</span></div>
+      <div class="stat"><b>37</b><span>Years experience</span></div>
+      <div class="stat"><b>98%</b><span>Client satisfaction</span></div>
+    </div>
+    <p class="hint">These four numbers are placeholders - send me the real ones.</p>
+  </div>
+  <div class="introbox">
+    <span class="eyebrow">Industry introduction</span>
+    <h3>The Food &amp; Beverage industry is more competitive than ever.</h3>
+    <p>A strong brand makes you memorable, builds trust and brings customers back.
+       We help you create a brand that stands out in every detail.</p>
+    <a class="btn btn-dark" href="#contact">Learn more about us</a>
+  </div>
+</div></section>
+
+<!-- 4. BUSINESS TYPE CARDS -->
+<section class="sec" id="types" style="background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <span class="eyebrow">Business type solutions</span>
+    <h2>Branding Solutions for Every Food &amp; Beverage Business</h2>
+    <p style="max-width:760px;color:var(--muted)">Click a business type and the others step aside, exactly as your PDF asks.
+       Click it again to bring them all back.</p>
+
+    <div class="filters" id="filters">
+      <button class="chip" aria-pressed="false" data-f="all">All</button>
+      <button class="chip" aria-pressed="false" data-f="restaurant">Restaurant</button>
+      <button class="chip" aria-pressed="false" data-f="cafe">Café</button>
+      <button class="chip" aria-pressed="false" data-f="bakery">Bakery</button>
+      <button class="chip" aria-pressed="false" data-f="fastfood">Fast Food</button>
+      <button class="chip" aria-pressed="false" data-f="truck">Food Truck</button>
+      <button class="chip" aria-pressed="false" data-f="catering">Catering</button>
+    </div>
+
+    <div class="cards" id="cards">
+      <div class="card" data-k="restaurant"><div class="ph">RESTAURANT PHOTO</div><div class="card-b">
+        <h4>01 &nbsp;Restaurant Branding</h4>
+        <ul><li>Logo &amp; brand identity</li><li>Menu design</li><li>Packaging &amp; print</li><li>Uniforms &amp; signage</li></ul>
+        <a href="#restaurant">View solutions &rarr;</a></div></div>
+      <div class="card" data-k="cafe"><div class="ph">CAFÉ PHOTO</div><div class="card-b">
+        <h4>02 &nbsp;Café Branding</h4>
+        <ul><li>Logo &amp; brand identity</li><li>Menu &amp; price list</li><li>Cups &amp; stationery</li><li>Interior signage</li></ul>
+        <a href="#cafe">View solutions &rarr;</a></div></div>
+      <div class="card" data-k="bakery"><div class="ph">BAKERY PHOTO</div><div class="card-b">
+        <h4>03 &nbsp;Bakery Branding</h4>
+        <ul><li>Logo &amp; brand identity</li><li>Packaging design</li><li>Labels &amp; stickers</li><li>Boxes &amp; bags</li></ul>
+        <a href="#restaurant">View solutions &rarr;</a></div></div>
+      <div class="card" data-k="fastfood"><div class="ph">FAST FOOD PHOTO</div><div class="card-b">
+        <h4>04 &nbsp;Fast Food Branding</h4>
+        <ul><li>Logo &amp; brand identity</li><li>Menu boards</li><li>Packaging &amp; signage</li><li>Promotional items</li></ul>
+        <a href="#restaurant">View solutions &rarr;</a></div></div>
+      <div class="card" data-k="truck"><div class="ph">FOOD TRUCK PHOTO</div><div class="card-b">
+        <h4>05 &nbsp;Food Truck Branding</h4>
+        <ul><li>Logo &amp; wrap design</li><li>Menu design</li><li>Promotional items</li><li>Flags &amp; signage</li></ul>
+        <a href="#restaurant">View solutions &rarr;</a></div></div>
+      <div class="card" data-k="catering"><div class="ph">CATERING PHOTO</div><div class="card-b">
+        <h4>06 &nbsp;Catering Branding</h4>
+        <ul><li>Menu design</li><li>Packaging &amp; labels</li><li>Thank you cards</li><li>Event signage</li></ul>
+        <a href="#restaurant">View solutions &rarr;</a></div></div>
+    </div>
+
+    <div class="helpbar">
+      <p><b>Not sure which one fits you?</b> We help you choose the right branding solution for your business.</p>
+      <a class="btn btn-primary" href="#contact">Book a free consultation &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- 5. PACKAGES -->
+<section class="sec" id="packages"><div class="wrap">
+  <span class="eyebrow">Branding packages</span>
+  <h2>Choose the package that fits your business goals and budget</h2>
+  <div class="pk" style="margin-top:18px">
+    <div class="pkg"><h4>Starter</h4><p class="hint">Perfect for new businesses</p>
+      <ul><li>Logo design</li><li>Basic stationery</li><li>Menu design</li><li>Social media kit</li></ul>
+      <div class="price"><small>FROM</small>499</div></div>
+    <div class="pkg is-pop"><span class="pop">POPULAR</span><h4>Professional</h4><p class="hint">Everything you need to get noticed</p>
+      <ul><li>Everything in Starter</li><li>Packaging design</li><li>Uniform design</li><li>Promotional items</li></ul>
+      <div class="price"><small>FROM</small>999</div></div>
+    <div class="pkg"><h4>Premium</h4><p class="hint">Advanced solutions for growing brands</p>
+      <ul><li>Everything in Professional</li><li>Brand strategy</li><li>Advanced packaging</li><li>Photo &amp; video</li></ul>
+      <div class="price"><small>FROM</small>1,699</div></div>
+    <div class="pkg"><h4>Enterprise</h4><p class="hint">For large businesses &amp; franchises</p>
+      <ul><li>Everything in Premium</li><li>Custom solutions</li><li>Multi-location support</li><li>Dedicated account</li></ul>
+      <div class="price" style="color:var(--pink)">Custom</div></div>
+  </div>
+  <p class="hint">Currency and whether you publish prices at all is your decision - I flagged that separately.</p>
+</div></section>
+
+<!-- STAGE 2 PLACEHOLDER -->
+<section class="sec" id="restaurant"><div class="wrap">
+  <div class="stage2">
+    <span class="stage2-tag">Stage 2 &ndash; not in this 50</span>
+    <h2>Restaurant &amp; Caf&eacute; sections go here</h2>
+    <p>This is the part that is added in the second stage. For each business type it is six blocks:</p>
+    <ol class="stage2-list">
+      <li>Introduction with image</li>
+      <li>Eight branding solution tiles</li>
+      <li>Product suggestions grid</li>
+      <li>The seven step &ldquo;complete branding journey&rdquo;</li>
+      <li>Portfolio slider of your work</li>
+      <li>FAQ for that business type</li>
+    </ol>
+    <p class="hint">Until then the business type cards above still work &ndash; they simply scroll down to this
+       part of the page instead of into a finished section.</p>
+  </div>
+</div></section>
+
+<!-- 8. BLOGS -->
+<section class="sec"><div class="wrap">
+  <span class="eyebrow">From our blog</span>
+  <h2>Latest articles</h2>
+  <div class="blogs" style="margin-top:16px">
+    <div class="blog"><div class="ph">ARTICLE IMAGE</div><div><b>Your latest post title</b><br><span style="color:var(--muted)">Pulled automatically from your blog.</span></div></div>
+    <div class="blog"><div class="ph">ARTICLE IMAGE</div><div><b>Your latest post title</b><br><span style="color:var(--muted)">Always the 3 newest.</span></div></div>
+    <div class="blog"><div class="ph">ARTICLE IMAGE</div><div><b>Your latest post title</b><br><span style="color:var(--muted)">No manual updating.</span></div></div>
+  </div>
+  <p style="margin-top:14px"><a class="btn btn-dark" href="#">See all articles &rarr;</a></p>
+</div></section>
+
+<!-- 9. GENERAL FAQ + CONTACT -->
+<section class="sec" id="contact"><div class="wrap">
+  <div class="contact">
+    <div>
+      <span class="eyebrow">FAQ</span>
+      <h3>Frequently Asked Questions</h3>
+      <details><summary>Do you deliver across Germany?</summary><p>Placeholder answer.</p></details>
+      <details><summary>What are your minimum order quantities?</summary><p>Placeholder answer.</p></details>
+      <details><summary>Can I order a sample first?</summary><p>Placeholder answer.</p></details>
+      <details><summary>How do I send my logo?</summary><p>Placeholder answer.</p></details>
+    </div>
+    <div>
+      <span class="eyebrow">Free consultation</span>
+      <h3>Let's Build Something Amazing Together</h3>
+      <form id="rf" novalidate>
+        <div class="field"><label for="n">Your name</label><input id="n" name="n" required>
+          <span class="err">Please enter your name.</span></div>
+        <div class="field"><label for="e">Email</label><input id="e" name="e" type="email" required>
+          <span class="err">Please enter a valid email address.</span></div>
+        <div class="field"><label for="i">Business type</label>
+          <select id="i" name="i">
+            <option>Restaurant</option><option>Café</option><option>Bakery</option>
+            <option>Fast Food</option><option>Food Truck</option><option>Catering</option>
+          </select></div>
+        <div class="field"><label for="m">What do you need?</label><textarea id="m" name="m" rows="3" required></textarea>
+          <span class="err">Please tell us what you need.</span></div>
+        <button class="btn btn-primary" type="submit">Send request</button>
+        <div class="ok" id="ok">Thank you - your request has been sent. We reply within one working day.</div>
+      </form>
+      <p class="hint">The enquiry silently carries the page it came from, so your team sees
+         "Food &amp; Beverage - Café" without asking.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 10. LAST BLOCK -->
+<section class="sec" style="background:var(--soft);border-top:1px solid var(--line)"><div class="wrap">
+  <span class="eyebrow">Why choose us</span>
+  <h2>More Than a Store. Your Branding Partner.</h2>
+  <div class="why" style="margin-top:16px">
+    <div>Free Shipping</div><div>24/7 Support</div><div>100% Satisfaction</div>
+    <div>Secure Payment</div><div>Premium Quality</div><div>Expert Advice</div>
+  </div>
+  <p class="hint" style="margin-top:14px">This is the block your PDF says to reuse at the bottom of every industry page.</p>
+</div></section>
+
+<div class="draftbar" style="background:#f4f4f4;color:#444">
+  Draft only. Nothing on hmi-ad.com has been changed.
+  <span class="tag tag-100">in the 100</span> Restaurant section only &nbsp;
+  <span class="tag tag-150">the 150</span> Restaurant + Café, page finished
+</div>
+
+<script>
+(function(){
+  // business type filter
+  var chips=[].slice.call(document.querySelectorAll('.chip'));
+  var cards=[].slice.call(document.querySelectorAll('#cards .card'));
+  function apply(f){
+    cards.forEach(function(c){ c.classList.toggle('is-hidden', f!=='all' && c.dataset.k!==f); });
+    chips.forEach(function(c){ c.setAttribute('aria-pressed', String(c.dataset.f===f)); });
+  }
+  chips.forEach(function(ch){
+    ch.addEventListener('click',function(){
+      var on=ch.getAttribute('aria-pressed')==='true';
+      apply(on?'all':ch.dataset.f);
+    });
+  });
+  apply('all');
+
+  // portfolio slider
+  document.querySelectorAll('[data-slider]').forEach(function(sl){
+    var track=sl.querySelector('.track'), n=track.children.length, i=0, timer=null;
+    var box=sl.parentElement;
+    function per(){ return window.innerWidth<=560?1:(window.innerWidth<=980?2:4); }
+    function go(k){ i=(k+n)%n; var w=track.children[0].getBoundingClientRect().width+14;
+                    var max=n-per(); if(i>max) i=0; track.style.transform='translateX('+(-i*w)+'px)'; }
+    function next(){ go(i+1); }
+    function start(){ if(!timer) timer=setInterval(next,3500); }
+    function stop(){ clearInterval(timer); timer=null; }
+    var btns=box.querySelector('.sldbtns');
+    if(btns){ btns.querySelector('[data-next]').onclick=function(){next();};
+              btns.querySelector('[data-prev]').onclick=function(){go(i-1);} }
+    sl.addEventListener('mouseenter',stop); sl.addEventListener('mouseleave',start);
+    window.addEventListener('resize',function(){go(i)});
+    start();
+  });
+
+  // form validation + success message
+  var f=document.getElementById('rf');
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var bad=false;
+    [['n',function(v){return v.trim().length>1}],
+     ['e',function(v){return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)}],
+     ['m',function(v){return v.trim().length>3}]].forEach(function(p){
+      var el=document.getElementById(p[0]), w=el.closest('.field');
+      var okv=p[1](el.value); w.classList.toggle('bad',!okv); if(!okv) bad=true;
+    });
+    if(bad){ document.getElementById('ok').classList.remove('show'); return; }
+    document.getElementById('ok').classList.add('show');
+    f.reset();
+  });
+})();
+</script>
+</body>
+</html>
